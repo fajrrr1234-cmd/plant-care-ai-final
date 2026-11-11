@@ -49,6 +49,17 @@ section[data-testid="stSidebar"] * {
     border-radius: 12px;
     border: none;
 }
+/* جعل الكتابة واضحة داخل المربعات */
+div[data-testid="stAlert"],
+div[data-testid="stAlert"] * {
+    color: #FFFFFF !important;
+}
+
+/* تحسين وضوح رسائل التنبيه */
+div[data-testid="stAlert"] {
+    border-radius: 15px;
+    padding: 15px;
+}
 </style>
 """, unsafe_allow_html=True)
 # القائمة الجانبية
