@@ -8,53 +8,50 @@ st.set_page_config(
 
 # تنسيق الواجهة والألوان
 st.markdown("""
+st.markdown("""
 <style>
-.stApp {
-    background-color: #E5F1DF;
-    color: #174B32;
-}
-
+.stApp,
 [data-testid="stAppViewContainer"],
 [data-testid="stMain"] {
     background-color: #E5F1DF;
 }
 
-[data-testid="stSidebar"] {
-    background-color: #B5D6A7;
-}
-
-h1, h2, h3, p, label {
+/* النصوص على الخلفيات الفاتحة */
+h1, h2, h3, p, label,
+.stMarkdown, .stText {
     color: #174B32 !important;
 }
 
-.stButton button {
+/* المربعات الغامقة */
+.dark-box {
     background-color: #174B32;
     color: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.dark-box * {
+    color: white !important;
+}
+
+/* القائمة الجانبية */
+section[data-testid="stSidebar"] {
+    background-color: #B5D6A7;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #174B32 !important;
+}
+
+/* الأزرار */
+.stButton button {
+    background-color: #174B32;
+    color: white !important;
     border-radius: 12px;
     border: none;
-    padding: 10px 25px;
 }
-
-.stButton button:hover {
-    background-color: #286B47;
-    color: white;
-}
-
-div[data-testid="stMetric"] {
-    background-color: #DCEED5;
-    padding: 15px;
-    border-radius: 12px;
-}
-
-.card {
-    background-color: #F5FAF2;
-    padding: 25px;
-    border-radius: 18px;
-    text-align: center;
-    border: 1px solid #B5D6A7;
-}
-
 </style>
+""", unsafe_allow_html=True)
 """, unsafe_allow_html=True)
 
 # القائمة الجانبية
