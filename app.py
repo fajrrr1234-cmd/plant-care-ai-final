@@ -8,7 +8,6 @@ st.set_page_config(
 
 # تنسيق الواجهة والألوان
 st.markdown("""
-st.markdown("""
 <style>
 .stApp,
 [data-testid="stAppViewContainer"],
@@ -52,8 +51,6 @@ section[data-testid="stSidebar"] * {
 }
 </style>
 """, unsafe_allow_html=True)
-""", unsafe_allow_html=True)
-
 # القائمة الجانبية
 with st.sidebar:
     st.title("🌱 PlantCare AI")
