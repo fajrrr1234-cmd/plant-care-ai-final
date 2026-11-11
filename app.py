@@ -8,14 +8,29 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-.stApp {background:#101713; color:white}
-h1,h2,h3 {color:#D6B96C}
-section[data-testid="stSidebar"] {background:#1B2920}
+.stApp {
+    background-color: #E5F1DF;
+    color: #174B32;
+}
+
+section[data-testid="stSidebar"] {
+    background-color: #B5D6A7;
+}
+
+h1, h2, h3, p, label {
+    color: #174B32 !important;
+}
+
 .stButton button {
-    background:#28543A;
-    color:white;
-    border:1px solid #D6B96C;
-    border-radius:12px;
+    background-color: #174B32;
+    color: white;
+    border-radius: 12px;
+    border: none;
+}
+
+.stButton button:hover {
+    background-color: #286B47;
+    color: white;
 }
 </style>
 """, unsafe_allow_html=True)
