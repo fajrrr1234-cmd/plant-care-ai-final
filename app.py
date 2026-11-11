@@ -32,6 +32,27 @@ h1, h2, h3, p, label {
     background-color: #286B47;
     color: white;
 }
+.stTextInput input,
+.stNumberInput input,
+.stSelectbox div {
+    background-color: #F5FAF2;
+    color: #174B32;
+    border: 1px solid #B5D6A7;
+    border-radius: 10px;
+}
+
+.stAlert {
+    background-color: #DCEED5;
+    color: #174B32;
+    border-radius: 12px;
+}
+
+div[data-testid="stMetric"] {
+    background-color: #DCEED5;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #B5D6A7;
+}
 </style>
 """, unsafe_allow_html=True)
 
