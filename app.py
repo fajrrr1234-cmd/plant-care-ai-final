@@ -122,9 +122,31 @@ if page == "الرئيسية":
 
 # صفحة تحليل النباتات
 elif page == "تحليل النباتات":
-    st.title("🌿 تحليل النباتات")
-    st.info("ستتم إضافة خاصية تصوير النبات والتعرف عليه في هذه الصفحة.")
 
+    st.title("🌿 تحليل النباتات")
+    st.subheader("ارفعي صورة نباتك أو التقطي صورة بالكاميرا")
+
+    st.write("يمكنك اختيار صورة من جهازك أو استخدام الكاميرا.")
+
+    uploaded_image = st.file_uploader(
+        "📁 اختاري صورة النبات",
+        type=["jpg", "jpeg", "png"]
+    )
+
+    camera_image = st.camera_input("📷 التقطي صورة للنبات")
+
+    image = camera_image if camera_image else uploaded_image
+
+    if image is not None:
+        st.image(
+            image,
+            caption="صورة النبات",
+            use_container_width=True
+        )
+
+        if st.button("🌱 ابدأ تحليل النبات"):
+            st.success("تم رفع الصورة بنجاح!")
+            st.info("الخطوة القادمة: ربط الصورة بنموذج الذكاء الاصطناعي للتعرف على النبات.")
 # صفحة النتائج
 elif page == "النتائج":
     st.title("📊 نتائج التحليل")
