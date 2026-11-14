@@ -151,6 +151,22 @@ hr {
     border-color: #B5D6A7;
 }
 </style>
+/* إصلاح عرض القائمة الجانبية في الجوال */
+@media (max-width: 768px) {
+    [data-testid="stSidebar"] {
+        min-width: 260px !important;
+        width: 260px !important;
+    }
+
+    [data-testid="stSidebar"] [role="radiogroup"] label {
+        white-space: nowrap !important;
+        width: 100% !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
+        overflow-wrap: normal !important;
+    }
+}
 """, unsafe_allow_html=True)
 
 # ==============================
