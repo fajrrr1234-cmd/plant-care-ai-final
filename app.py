@@ -465,19 +465,18 @@ elif page == "النتائج":
 
         st.markdown("---")
 
-  st.subheader("💡 توصيات العناية بالنبات")
+        st.subheader("💡 توصيات العناية بالنبات")
 
-            recommendations = result.get("recommendations", [])
+        for item in result["recommendations"]:
 
-            if recommendations:
-                for item in recommendations:
-                    st.markdown(f"### 🌱 {item['title']}")
-                    st.write("الأولوية:", item["priority"])
-                    st.write(item["description"])
-                    st.success("الإجراء المقترح: " + item["action"])
-                    st.markdown("---")
-            else:
-                st.warning("لا توجد توصيات متاحة لهذا التحليل.")  
+            st.markdown(f"""
+            <div class="card">
+                <h3>{item['title']}</h3>
+                <p><b>الأولوية:</b> {item['priority']}</p>
+                <p>{item['description']}</p>
+                <p><b>الإجراء المقترح:</b> {item['action']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
 
 # =========================
