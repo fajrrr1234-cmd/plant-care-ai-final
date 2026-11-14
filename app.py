@@ -198,7 +198,29 @@ def analyze_plant(plant, moisture, light, temperature):
 # =========================
 # القائمة الجانبية
 # =========================
+def identify_plant(image_file):
+    api_key = st.secrets["PLANTNET_API_KEY"]
 
+    url = "https://my-api.plantnet.org/v2/identify/all"
+
+    files = [
+        ("images", (
+            image_file.name,
+            image_file.getvalue(),
+            image_file.type or "image/jpeg"
+        ))
+    ]
+
+    response = requests.post(
+        url,
+        params={"api-key": api_key},
+        files=files,
+        data={"organs": "auto"},
+        timeout=60
+    )
+
+    response.raise_for_status()
+    return response.json()
 with st.sidebar:
 
     st.title("🌱 PlantCare AI")
