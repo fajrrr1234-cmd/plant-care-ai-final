@@ -1,9 +1,8 @@
 import streamlit as st
-import pandas as pd
 
-# ==========================================
-# 1. إعداد الصفحة
-# ==========================================
+# =====================================
+# إعداد الصفحة
+# =====================================
 
 st.set_page_config(
     page_title="PlantCare AI",
@@ -11,9 +10,9 @@ st.set_page_config(
     layout="wide"
 )
 
-# ==========================================
-# 2. تصميم الموقع
-# ==========================================
+# =====================================
+# تنسيق الواجهة
+# =====================================
 
 st.markdown("""
 <style>
@@ -21,7 +20,6 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'Cairo', sans-serif;
-    direction: rtl;
 }
 
 .stApp,
@@ -31,110 +29,111 @@ html, body, [class*="css"] {
 }
 
 h1, h2, h3, h4, p, label {
-    color: #174B32;
-}
-
-/* القائمة الجانبية */
-[data-testid="stSidebar"] {
-    background-color: #B5D6A7;
-}
-
-[data-testid="stSidebar"] * {
     color: #174B32 !important;
 }
 
-/* إصلاح عرض القائمة في الجوال */
-@media (max-width: 768px) {
-    [data-testid="stSidebar"] {
-        min-width: 260px !important;
-        width: 260px !important;
-    }
-
-    [data-testid="stSidebar"] [role="radiogroup"] label {
-        white-space: nowrap !important;
-        width: 100% !important;
-    }
-
-    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
-        overflow-wrap: normal !important;
-        word-break: normal !important;
-    }
+.stMarkdown {
+    color: #174B32;
 }
 
-/* الأزرار */
-.stButton > button {
-    background-color: #174B32;
-    color: white !important;
-    border-radius: 10px;
-    border: none;
-    padding: 10px 22px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: bold;
-    width: 100%;
-}
-
-.stButton > button:hover {
-    background-color: #286644;
-    color: white !important;
-}
-
-/* البطاقات */
+/* المربعات */
 .card {
     background-color: #F5FAF2;
     border: 1px solid #B5D6A7;
-    border-radius: 16px;
+    border-radius: 15px;
     padding: 22px;
     margin-bottom: 15px;
     text-align: right;
     min-height: 150px;
 }
 
-.card h3 {
-    color: #174B32;
+.card h1, .card h2, .card h3 {
+    color: #174B32 !important;
 }
 
 .card p {
-    color: #42634D;
-    line-height: 1.8;
+    color: #42634D !important;
+    line-height: 1.9;
 }
 
-/* بطاقات القراءات */
+/* المربعات الغامقة */
+.dark-box {
+    background-color: #174B32;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.dark-box * {
+    color: white !important;
+}
+
+/* القائمة الجانبية */
+section[data-testid="stSidebar"] {
+    background-color: #B5D6A7;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #174B32 !important;
+}
+
+/* الأزرار */
+.stButton button {
+    background-color: #174B32;
+    color: white !important;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-weight: bold;
+    min-height: 42px;
+}
+
+.stButton button:hover {
+    background-color: #286644;
+}
+
+/* التنبيهات */
+div[data-testid="stAlert"] {
+    border-radius: 15px;
+    padding: 15px;
+}
+
+/* بطاقات النتائج */
 .metric-card {
-    background: #F5FAF2;
+    background-color: #F5FAF2;
     border: 1px solid #B5D6A7;
-    border-radius: 14px;
+    border-radius: 15px;
     padding: 18px;
     text-align: center;
+    margin-bottom: 12px;
 }
 
 .metric-value {
-    font-size: 28px;
-    font-weight: bold;
     color: #174B32;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .metric-label {
-    font-size: 14px;
     color: #55745D;
+    font-size: 14px;
 }
 
 /* بطاقات التوصيات */
 .recommendation-card {
-    background: white;
+    background: #FFFFFF;
     border-radius: 15px;
-    padding: 20px;
+    padding: 18px;
     margin-bottom: 15px;
     border-right: 5px solid #5B9B64;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .recommendation-card h3 {
-    color: #24543A;
-    font-size: 19px;
+    color: #24543A !important;
 }
 
 .recommendation-card p {
-    color: #666;
+    color: #555 !important;
     line-height: 1.8;
 }
 
@@ -143,8 +142,8 @@ h1, h2, h3, h4, p, label {
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 13px;
-    margin-bottom: 10px;
     font-weight: bold;
+    margin-bottom: 8px;
 }
 
 .high {
@@ -170,16 +169,25 @@ h1, h2, h3, h4, p, label {
     color: #24543A;
 }
 
-hr {
-    border-color: #B5D6A7;
+/* تحسين عرض البطاقات على الجوال */
+@media (max-width: 768px) {
+    .card {
+        padding: 15px;
+        min-height: auto;
+    }
+
+    .metric-value {
+        font-size: 20px;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
 
 
-# ==========================================
-# 3. بيانات النباتات
-# ==========================================
+# =====================================
+# بيانات النباتات
+# القيم إرشادية للمحاكاة
+# =====================================
 
 plant_data = {
     "بوتس": {
@@ -225,32 +233,32 @@ plant_data = {
 }
 
 
-# ==========================================
-# 4. دالة تحليل حالة النبات
-# ==========================================
+# =====================================
+# دالة تحليل القراءات
+# =====================================
 
 def analyze_plant(plant, moisture, light, temperature):
 
     data = plant_data[plant]
     recommendations = []
 
-    # فحص الرطوبة
+    # تحليل رطوبة التربة
     if moisture < data["moisture_min"]:
         recommendations.append({
-            "title": "تحسين عملية الري",
+            "title": "انخفاض رطوبة التربة",
             "priority": "high",
             "priority_text": "أولوية عالية",
-            "description": "مستوى رطوبة التربة أقل من النطاق الإرشادي.",
-            "action": "تحققي من جفاف التربة واسقي النبات عند الحاجة."
+            "description": "رطوبة التربة أقل من النطاق الإرشادي للنبات.",
+            "action": "افحصي التربة واسقي النبات عند الحاجة."
         })
 
     elif moisture > data["moisture_max"]:
         recommendations.append({
-            "title": "تقليل الري",
+            "title": "ارتفاع رطوبة التربة",
             "priority": "high",
             "priority_text": "أولوية عالية",
             "description": "رطوبة التربة أعلى من النطاق الإرشادي.",
-            "action": "تأكدي من تصريف الماء واتركي التربة تجف جزئياً."
+            "action": "قللي الري وتأكدي من وجود تصريف جيد للماء."
         })
 
     else:
@@ -259,25 +267,25 @@ def analyze_plant(plant, moisture, light, temperature):
             "priority": "low",
             "priority_text": "أولوية منخفضة",
             "description": "قراءة الرطوبة ضمن النطاق الإرشادي.",
-            "action": "استمري في متابعة التربة قبل كل عملية ري."
+            "action": "استمري في متابعة رطوبة التربة."
         })
 
-    # فحص الإضاءة
+    # تحليل الإضاءة
     if light < data["light_min"]:
         recommendations.append({
-            "title": "تحسين الإضاءة",
+            "title": "انخفاض الإضاءة",
             "priority": "medium",
             "priority_text": "أولوية متوسطة",
-            "description": "الإضاءة أقل من النطاق الإرشادي للنبات.",
-            "action": "انقلي النبات إلى مكان أكثر إضاءة غير مباشرة."
+            "description": "مستوى الإضاءة أقل من احتياج النبات الإرشادي.",
+            "action": "ضعي النبات في مكان أكثر إضاءة مناسبة."
         })
 
     elif light > data["light_max"]:
         recommendations.append({
-            "title": "تقليل التعرض للضوء",
+            "title": "ارتفاع الإضاءة",
             "priority": "medium",
             "priority_text": "أولوية متوسطة",
-            "description": "الإضاءة أعلى من النطاق الإرشادي.",
+            "description": "مستوى الإضاءة أعلى من النطاق الإرشادي.",
             "action": "أبعدي النبات عن أشعة الشمس المباشرة القوية."
         })
 
@@ -286,23 +294,23 @@ def analyze_plant(plant, moisture, light, temperature):
             "title": "الإضاءة مناسبة",
             "priority": "low",
             "priority_text": "أولوية منخفضة",
-            "description": "قراءة الإضاءة ضمن النطاق الإرشادي.",
-            "action": "حافظي على مكان النبات وراقبي نموه."
+            "description": "مستوى الإضاءة ضمن النطاق الإرشادي.",
+            "action": "حافظي على مكان النبات الحالي."
         })
 
-    # فحص درجة الحرارة
+    # تحليل درجة الحرارة
     if temperature < data["temp_min"]:
         recommendations.append({
-            "title": "رفع درجة الحرارة",
+            "title": "انخفاض درجة الحرارة",
             "priority": "medium",
             "priority_text": "أولوية متوسطة",
             "description": "درجة الحرارة أقل من النطاق الإرشادي.",
-            "action": "ضعي النبات في مكان أكثر دفئاً."
+            "action": "انقلي النبات إلى مكان أكثر دفئاً."
         })
 
     elif temperature > data["temp_max"]:
         recommendations.append({
-            "title": "خفض درجة الحرارة",
+            "title": "ارتفاع درجة الحرارة",
             "priority": "high",
             "priority_text": "أولوية عالية",
             "description": "درجة الحرارة أعلى من النطاق الإرشادي.",
@@ -333,110 +341,104 @@ def analyze_plant(plant, moisture, light, temperature):
     return recommendations, score
 
 
-# ==========================================
-# 5. القائمة الجانبية
-# ==========================================
+# =====================================
+# القائمة الجانبية
+# =====================================
 
-st.sidebar.title("🌱 PlantCare AI")
-st.sidebar.markdown("---")
+with st.sidebar:
+    st.title("🌱 PlantCare AI")
+    st.caption("Smart Plant Monitoring")
+    st.markdown("---")
 
-page = st.sidebar.radio(
-    "القائمة الرئيسية",
-    [
-        "الرئيسية",
-        "تحليل النبات",
-        "لوحة المعلومات",
-        "التوصيات",
-        "عن المشروع"
-    ]
-)
-
-st.sidebar.markdown("---")
-st.sidebar.caption("نظام ذكي لمراقبة صحة النباتات الداخلية")
-
-
-# ==========================================
-# 6. الصفحة الرئيسية
-# ==========================================
-
-if page == "الرئيسية":
-
-    st.markdown(
-        "<h1 style='text-align:center;'>🌱 PlantCare AI</h1>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<h3 style='text-align:center;'>نظام ذكي لمراقبة صحة النباتات الداخلية</h3>",
-        unsafe_allow_html=True
+    page = st.radio(
+        "القائمة",
+        [
+            "الرئيسية",
+            "تحليل النباتات",
+            "النتائج",
+            "عن المشروع"
+        ]
     )
 
     st.markdown("---")
+    st.caption("اعتنِ بنباتك بذكاء 🌿")
+
+
+# =====================================
+# الصفحة الرئيسية
+# =====================================
+
+if page == "الرئيسية":
 
     st.markdown("""
     <div class="card">
-        <h3>مرحباً بك في PlantCare AI</h3>
+        <h1>🌱 PlantCare AI</h1>
+        <h3>اعتنِ بنباتك بذكاء</h3>
         <p>
-        يساعدك النظام على متابعة حالة النباتات الداخلية
-        ومعرفة احتياجاتها من الماء والإضاءة ودرجة الحرارة،
-        مع تقديم توصيات تساعد على تحسين العناية بالنبات.
+        نظام ذكي يساعدك على التعرف على النباتات الداخلية
+        ومراقبة احتياجاتها وتقديم توصيات مناسبة للعناية بها.
         </p>
     </div>
     """, unsafe_allow_html=True)
+
+    st.write("")
+    st.subheader("🌿 خدمات النظام")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.markdown("""
         <div class="card">
-            <h3>📷 تحليل النبات</h3>
-            <p>إمكانية رفع صورة النبات أو التقاط صورة له.</p>
+            <h2>🌱</h2>
+            <h3>التعرف على النباتات</h3>
+            <p>إمكانية رفع صورة النبات لمراجعتها.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
         <div class="card">
-            <h3>📊 متابعة الحالة</h3>
-            <p>متابعة الرطوبة والإضاءة ودرجة الحرارة.</p>
+            <h2>💧</h2>
+            <h3>مراقبة الرطوبة</h3>
+            <p>متابعة احتياجات النبات من الماء.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
         <div class="card">
-            <h3>💡 التوصيات الذكية</h3>
-            <p>الحصول على إرشادات للعناية بالنبات حسب القراءات.</p>
+            <h2>☀️</h2>
+            <h3>مراقبة الإضاءة</h3>
+            <p>متابعة احتياجات النبات من الضوء.</p>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.info("اختاري إحدى الصفحات من القائمة الجانبية للبدء.")
+    st.write("")
+    st.subheader("ابدئي رحلة العناية بنباتك")
+
+    if st.button("🌿 ابدأ الآن"):
+        st.info("انتقلي إلى صفحة تحليل النباتات من القائمة الجانبية.")
 
 
-# ==========================================
-# 7. تحليل النبات
-# ==========================================
+# =====================================
+# صفحة تحليل النباتات
+# =====================================
 
-elif page == "تحليل النبات":
+elif page == "تحليل النباتات":
 
-    st.title("📷 تحليل النبات")
+    st.title("🌿 تحليل النباتات")
+    st.subheader("ارفعي صورة نباتك أو التقطي صورة بالكاميرا")
 
-    st.write("اختاري صورة للنبات أو التقطي صورة باستخدام الكاميرا.")
-
-    selected_plant = st.selectbox(
-        "اختاري نوع النبات",
-        list(plant_data.keys())
-    )
+    st.write("يمكنك اختيار صورة من جهازك أو استخدام الكاميرا.")
 
     uploaded_image = st.file_uploader(
-        "ارفعي صورة النبات",
+        "📁 اختاري صورة النبات",
         type=["jpg", "jpeg", "png"]
     )
 
-    camera_image = st.camera_input("أو التقطي صورة للنبات")
+    camera_image = st.camera_input("📷 التقطي صورة للنبات")
 
-    image = uploaded_image if uploaded_image is not None else camera_image
+    image = camera_image if camera_image is not None else uploaded_image
 
     if image is not None:
         st.image(
@@ -445,28 +447,41 @@ elif page == "تحليل النبات":
             use_container_width=True
         )
 
-        st.success("تم تحميل الصورة بنجاح.")
+        st.success("تم رفع الصورة بنجاح.")
 
-        st.warning(
-            "عرض الصورة لا يعني أن النموذج تعرّف تلقائياً على النبات. "
-            "التعرف الآلي يحتاج إلى ربط نموذج ذكاء اصطناعي."
+        st.info(
+            "الصورة متاحة للعرض، والتعرف الآلي على نوع النبات "
+            "يحتاج إلى ربط نموذج ذكاء اصطناعي."
         )
 
     st.markdown("---")
-    st.subheader("متابعة احتياجات النبات")
+
+    st.subheader("بيانات النبات")
+
+    selected_plant = st.selectbox(
+        "اختاري نوع النبات",
+        list(plant_data.keys())
+    )
+
+    st.subheader("محاكاة قراءات المستشعرات")
+
+    st.caption(
+        "أدخلي القراءات يدويًا لتجربة النظام. "
+        "هذه القيم ليست قراءات من مستشعرات فعلية."
+    )
 
     col1, col2 = st.columns(2)
 
     with col1:
         moisture = st.slider(
-            "رطوبة التربة (%)",
+            "💧 رطوبة التربة (%)",
             min_value=0,
             max_value=100,
             value=45
         )
 
         light = st.slider(
-            "شدة الإضاءة (Lux)",
+            "☀️ شدة الإضاءة (Lux)",
             min_value=0,
             max_value=5000,
             value=1000
@@ -474,13 +489,13 @@ elif page == "تحليل النبات":
 
     with col2:
         temperature = st.slider(
-            "درجة الحرارة (°C)",
+            "🌡️ درجة الحرارة (°C)",
             min_value=0,
             max_value=50,
             value=24
         )
 
-    if st.button("ابدأ تحليل حالة النبات"):
+    if st.button("🌱 ابدأ تحليل النبات"):
 
         st.session_state["plant"] = selected_plant
         st.session_state["moisture"] = moisture
@@ -489,20 +504,21 @@ elif page == "تحليل النبات":
         st.session_state["analyzed"] = True
 
         st.success("تم تحليل القراءات بنجاح!")
-        st.info("انتقلي إلى لوحة المعلومات والتوصيات لمشاهدة النتيجة.")
+
+        st.info("انتقلي إلى صفحة النتائج لمشاهدة حالة النبات والتوصيات.")
 
 
-# ==========================================
-# 8. لوحة المعلومات
-# ==========================================
+# =====================================
+# صفحة النتائج
+# =====================================
 
-elif page == "لوحة المعلومات":
+elif page == "النتائج":
 
-    st.title("📊 لوحة معلومات صحة النبات")
+    st.title("📊 نتائج التحليل")
 
     if not st.session_state.get("analyzed", False):
 
-        st.info("يرجى تحليل النبات أولاً من صفحة تحليل النبات.")
+        st.info("يرجى تحليل النبات أولاً من صفحة تحليل النباتات.")
 
     else:
 
@@ -512,12 +528,15 @@ elif page == "لوحة المعلومات":
         temperature = st.session_state["temperature"]
 
         recommendations, score = analyze_plant(
-            plant, moisture, light, temperature
+            plant,
+            moisture,
+            light,
+            temperature
         )
 
         st.subheader(f"نتائج نبات {plant}")
 
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3 = st.columns(3)
 
         with col1:
             st.markdown(f"""
@@ -540,22 +559,20 @@ elif page == "لوحة المعلومات":
             st.markdown(f"""
             <div class="metric-card">
                 <div class="metric-label">درجة الحرارة</div>
-                <div class="metric-value">{temperature}°</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col4:
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-label">مؤشر الحالة</div>
-                <div class="metric-value">{score}%</div>
+                <div class="metric-value">{temperature}°C</div>
             </div>
             """, unsafe_allow_html=True)
 
         st.markdown("---")
-        st.subheader("ملخص حالة النبات")
+
+        st.subheader("🌿 مؤشر حالة النبات")
 
         st.progress(score / 100)
+
+        st.markdown(
+            f"<h2 style='text-align:center;'>{score}%</h2>",
+            unsafe_allow_html=True
+        )
 
         if score >= 80:
             st.success("حالة القراءات جيدة وفق النطاقات الإرشادية.")
@@ -567,48 +584,13 @@ elif page == "لوحة المعلومات":
             st.error("توجد قراءات تحتاج إلى متابعة.")
 
         st.caption(
-            "مؤشر إرشادي مبني على القراءات المدخلة، "
-            "وليس قياساً من مستشعر فعلي."
+            "هذا المؤشر تقديري مبني على القراءات المدخلة "
+            "والنطاقات الإرشادية، وليس تشخيصًا فعليًا لصحة النبات."
         )
 
         st.markdown("---")
-        st.subheader("القراءات الحالية")
 
-        chart_data = pd.DataFrame({
-            "القراءة": [moisture, light, temperature]
-        }, index=[
-            "رطوبة التربة (%)",
-            "الإضاءة (Lux)",
-            "الحرارة (°C)"
-        ])
-
-        st.bar_chart(chart_data)
-
-
-# ==========================================
-# 9. التوصيات
-# ==========================================
-
-elif page == "التوصيات":
-
-    st.title("💡 توصيات صحة النباتات")
-
-    if not st.session_state.get("analyzed", False):
-
-        st.info("حللي النبات أولاً حتى تظهر توصيات مبنية على قراءاته.")
-
-    else:
-
-        plant = st.session_state["plant"]
-        moisture = st.session_state["moisture"]
-        light = st.session_state["light"]
-        temperature = st.session_state["temperature"]
-
-        recommendations, score = analyze_plant(
-            plant, moisture, light, temperature
-        )
-
-        st.write(f"التوصيات الخاصة بنبات: **{plant}**")
+        st.subheader("💡 توصيات العناية بالنبات")
 
         for item in recommendations:
 
@@ -632,38 +614,48 @@ elif page == "التوصيات":
             """, unsafe_allow_html=True)
 
 
-# ==========================================
-# 10. عن المشروع
-# ==========================================
+# =====================================
+# صفحة عن المشروع
+# =====================================
 
 elif page == "عن المشروع":
 
-    st.title("🌱 عن مشروع PlantCare AI")
+    st.title("🌱 عن المشروع")
 
     st.markdown("""
     <div class="card">
         <h3>نبذة عن المشروع</h3>
         <p>
-        PlantCare AI هو نظام يهدف إلى مساعدة المستخدمين
-        في مراقبة صحة النباتات الداخلية وتقديم توصيات
-        مناسبة لاحتياجات النبات.
+        PlantCare AI هو نظام ذكي يهدف إلى مساعدة أصحاب
+        النباتات الداخلية على متابعة احتياجات نباتاتهم
+        وتقديم إرشادات تساعدهم على العناية بها.
         </p>
     </div>
+    """, unsafe_allow_html=True)
 
+    st.subheader("أهداف المشروع")
+
+    st.markdown("""
     <div class="card">
-        <h3>أهداف المشروع</h3>
         <p>
-        • تسهيل متابعة النباتات الداخلية.<br>
-        • المساعدة في تنظيم عملية الري.<br>
-        • متابعة الإضاءة ودرجة الحرارة.<br>
-        • تقديم توصيات لتحسين العناية بالنبات.<br>
-        • توظيف التقنيات الذكية في خدمة الزراعة.
+        🌱 التعرف على أنواع النباتات.<br>
+        💧 متابعة احتياجات النباتات من الماء.<br>
+        ☀️ متابعة احتياجات النباتات من الإضاءة.<br>
+        🌡️ متابعة درجة الحرارة.<br>
+        💡 تقديم توصيات مناسبة للعناية بالنباتات.
         </p>
     </div>
+    """, unsafe_allow_html=True)
 
+    st.subheader("التقنيات المستخدمة")
+
+    st.markdown("""
     <div class="card">
-        <h3>التقنيات المستخدمة</h3>
-        <p>Python – Streamlit – Pandas</p>
+        <p>
+        Python<br>
+        Streamlit<br>
+        محاكاة قراءات المستشعرات
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
