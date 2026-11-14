@@ -60,6 +60,23 @@ div[data-testid="stAlert"] {
     border-radius: 15px;
     padding: 15px;
 }
+/* البطاقات */
+.card {
+    background-color: #F5FAF2;
+    border: 1px solid #B5D6A7;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 15px;
+    text-align: right;
+    min-height: 180px;
+}
+
+.card h1,
+.card h2,
+.card h3,
+.card p {
+    color: #174B32 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 # القائمة الجانبية
