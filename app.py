@@ -1,27 +1,64 @@
 import streamlit as st
 
+# إعداد الصفحة
 st.set_page_config(
     page_title="PlantCare AI",
     page_icon="🌱",
     layout="wide"
 )
 
-# تنسيق الواجهة والألوان
+# تصميم الموقع والألوان
 st.markdown("""
 <style>
 .stApp,
 [data-testid="stAppViewContainer"],
 [data-testid="stMain"] {
     background-color: #E5F1DF;
+    color: #174B32;
+    direction: rtl;
+    text-align: right;
 }
 
-/* النصوص على الخلفيات الفاتحة */
 h1, h2, h3, p, label,
 .stMarkdown, .stText {
     color: #174B32 !important;
 }
 
-/* المربعات الغامقة */
+section[data-testid="stSidebar"] {
+    background-color: #B5D6A7;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #174B32 !important;
+}
+
+.stButton button {
+    background-color: #174B32;
+    color: white !important;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.stButton button:hover {
+    background-color: #246443;
+    color: white !important;
+}
+
+.card {
+    background-color: #F5FAF2;
+    border: 1px solid #B5D6A7;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 15px;
+    text-align: right;
+    min-height: 180px;
+}
+
+.card h1, .card h2, .card h3, .card p {
+    color: #174B32 !important;
+}
+
 .dark-box {
     background-color: #174B32;
     color: white;
@@ -33,52 +70,17 @@ h1, h2, h3, p, label,
     color: white !important;
 }
 
-/* القائمة الجانبية */
-section[data-testid="stSidebar"] {
-    background-color: #B5D6A7;
-}
-
-section[data-testid="stSidebar"] * {
-    color: #174B32 !important;
-}
-
-/* الأزرار */
-.stButton button {
-    background-color: #174B32;
-    color: white !important;
-    border-radius: 12px;
-    border: none;
-}
-/* جعل الكتابة واضحة داخل المربعات */
-div[data-testid="stAlert"],
-div[data-testid="stAlert"] * {
-    color: #FFFFFF !important;
-}
-
-/* تحسين وضوح رسائل التنبيه */
 div[data-testid="stAlert"] {
     border-radius: 15px;
     padding: 15px;
 }
-/* البطاقات */
-.card {
-    background-color: #F5FAF2;
-    border: 1px solid #B5D6A7;
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 15px;
-    text-align: right;
-    min-height: 180px;
-}
 
-.card h1,
-.card h2,
-.card h3,
-.card p {
-    color: #174B32 !important;
+div[data-testid="stAlert"] * {
+    color: white !important;
 }
 </style>
 """, unsafe_allow_html=True)
+
 # القائمة الجانبية
 with st.sidebar:
     st.title("🌱 PlantCare AI")
@@ -104,7 +106,6 @@ if page == "الرئيسية":
     """, unsafe_allow_html=True)
 
     st.write("")
-
     st.subheader("🌿 خدمات النظام")
 
     col1, col2, col3 = st.columns(3)
@@ -112,27 +113,27 @@ if page == "الرئيسية":
     with col1:
         st.markdown("""
         <div class="card">
-        <h2>🌱</h2>
-        <h3>التعرف على النباتات</h3>
-        <p>التعرف على نوع النبات من خلال صورته.</p>
+            <h2>🌱</h2>
+            <h3>التعرف على النباتات</h3>
+            <p>التعرف على نوع النبات من خلال صورته.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
         <div class="card">
-        <h2>💧</h2>
-        <h3>مراقبة الرطوبة</h3>
-        <p>متابعة احتياجات النبات من الماء.</p>
+            <h2>💧</h2>
+            <h3>مراقبة الرطوبة</h3>
+            <p>متابعة احتياجات النبات من الماء.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
         <div class="card">
-        <h2>☀️</h2>
-        <h3>مراقبة الإضاءة</h3>
-        <p>تحديد احتياجات النبات من الضوء.</p>
+            <h2>☀️</h2>
+            <h3>مراقبة الإضاءة</h3>
+            <p>تحديد احتياجات النبات من الضوء.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -155,11 +156,14 @@ elif page == "تحليل النباتات":
         type=["jpg", "jpeg", "png"]
     )
 
-    camera_image = st.camera_input("📷 التقطي صورة للنبات")
+    camera_image = st.camera_input(
+        "📷 التقطي صورة للنبات"
+    )
 
-    image = camera_image if camera_image else uploaded_image
+    image = camera_image if camera_image is not None else uploaded_image
 
     if image is not None:
+
         st.image(
             image,
             caption="صورة النبات",
@@ -167,22 +171,37 @@ elif page == "تحليل النباتات":
         )
 
         if st.button("🌱 ابدأ تحليل النبات"):
+
             st.success("تم رفع الصورة بنجاح!")
-            st.info("الخطوة القادمة: ربط الصورة بنموذج الذكاء الاصطناعي للتعرف على النبات.")
+
+            st.info(
+                "الخطوة القادمة: ربط الصورة بنموذج الذكاء الاصطناعي "
+                "للتعرف على النبات."
+            )
+
 # صفحة النتائج
 elif page == "النتائج":
+
     st.title("📊 نتائج التحليل")
-    st.info("ستظهر هنا نتائج تحليل حالة النباتات وتوصيات العناية بها.")
+
+    st.info(
+        "ستظهر هنا نتائج تحليل حالة النباتات "
+        "وتوصيات العناية بها."
+    )
 
 # صفحة عن المشروع
 elif page == "عن المشروع":
+
     st.title("🌱 عن المشروع")
+
     st.write("""
     PlantCare AI هو نظام ذكي يهدف إلى مساعدة أصحاب النباتات
     الداخلية على التعرف على نباتاتهم ومراقبة احتياجاتها
     وتقديم إرشادات تساعدهم على العناية بها.
     """)
+
     st.subheader("أهداف المشروع")
+
     st.write("- التعرف على أنواع النباتات.")
     st.write("- متابعة احتياجات النباتات.")
     st.write("- تقديم توصيات للعناية بالنباتات.")
