@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import base64
 
+API_KEY = st.secrets["PLANT_ID_API_KEY"]
 # =========================
 # إعداد الصفحة
 # =========================
