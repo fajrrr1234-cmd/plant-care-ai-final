@@ -1,5 +1,5 @@
 import streamlit as st
-
+import textwrap
 # =====================================
 # إعداد الصفحة
 # =====================================
@@ -592,26 +592,29 @@ elif page == "النتائج":
 
         st.subheader("💡 توصيات العناية بالنبات")
 
-        for item in recommendations:
+       for item in recommendations:
 
-            st.markdown(f"""
-            <div class="recommendation-card">
+    recommendation_html = f"""
+    <div class="recommendation-card">
+        <span class="priority {item['priority']}">
+            {item['priority_text']}
+        </span>
 
-                <span class="priority {item['priority']}">
-                    {item['priority_text']}
-                </span>
+        <h3>{item['title']}</h3>
 
-                <h3>{item['title']}</h3>
+        <p>{item['description']}</p>
 
-                <p>{item['description']}</p>
+        <div class="action-box">
+            <strong>الإجراء المقترح:</strong>
+            {item['action']}
+        </div>
+    </div>
+    """
 
-                <div class="action-box">
-                    <strong>الإجراء المقترح:</strong>
-                    {item['action']}
-                </div>
-
-            </div>
-            """, unsafe_allow_html=True)
+    st.markdown(
+        textwrap.dedent(recommendation_html),
+        unsafe_allow_html=True
+    )
 
 
 # =====================================
