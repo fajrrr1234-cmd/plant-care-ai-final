@@ -221,6 +221,105 @@ page = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 st.sidebar.caption("نظام ذكي لمراقبة صحة النباتات الداخلية")
+def analyze_plant(plant, moisture, light, temperature):
+
+    data = plant_data[plant]
+    recommendations = []
+
+    if moisture < data["moisture_min"]:
+        recommendations.append({
+            "title": "تحسين عملية الري",
+            "priority": "high",
+            "priority_text": "أولوية عالية",
+            "description": "مستوى رطوبة التربة أقل من النطاق الإرشادي.",
+            "action": "تحققي من جفاف التربة واسقي النبات عند الحاجة."
+        })
+
+    elif moisture > data["moisture_max"]:
+        recommendations.append({
+            "title": "تقليل الري",
+            "priority": "high",
+            "priority_text": "أولوية عالية",
+            "description": "رطوبة التربة أعلى من النطاق الإرشادي.",
+            "action": "تأكدي من تصريف الماء واتركي التربة تجف جزئياً."
+        })
+
+    else:
+        recommendations.append({
+            "title": "رطوبة التربة مناسبة",
+            "priority": "low",
+            "priority_text": "أولوية منخفضة",
+            "description": "قراءة الرطوبة ضمن النطاق الإرشادي.",
+            "action": "استمري في متابعة التربة قبل كل عملية ري."
+        })
+
+    if light < data["light_min"]:
+        recommendations.append({
+            "title": "تحسين الإضاءة",
+            "priority": "medium",
+            "priority_text": "أولوية متوسطة",
+            "description": "الإضاءة أقل من النطاق الإرشادي للنبات.",
+            "action": "انقلي النبات إلى مكان أكثر إضاءة غير مباشرة."
+        })
+
+    elif light > data["light_max"]:
+        recommendations.append({
+            "title": "تقليل التعرض للضوء",
+            "priority": "medium",
+            "priority_text": "أولوية متوسطة",
+            "description": "الإضاءة أعلى من النطاق الإرشادي.",
+            "action": "أبعدي النبات عن أشعة الشمس المباشرة القوية."
+        })
+
+    else:
+        recommendations.append({
+            "title": "الإضاءة مناسبة",
+            "priority": "low",
+            "priority_text": "أولوية منخفضة",
+            "description": "قراءة الإضاءة ضمن النطاق الإرشادي.",
+            "action": "حافظي على مكان النبات وراقبي نموه."
+        })
+
+    if temperature < data["temp_min"]:
+        recommendations.append({
+            "title": "رفع درجة الحرارة",
+            "priority": "medium",
+            "priority_text": "أولوية متوسطة",
+            "description": "درجة الحرارة أقل من النطاق الإرشادي.",
+            "action": "ضعي النبات في مكان أكثر دفئاً بعيداً عن التيارات الباردة."
+        })
+
+    elif temperature > data["temp_max"]:
+        recommendations.append({
+            "title": "خفض درجة الحرارة",
+            "priority": "high",
+            "priority_text": "أولوية عالية",
+            "description": "درجة الحرارة أعلى من النطاق الإرشادي.",
+            "action": "أبعدي النبات عن مصادر الحرارة المباشرة."
+        })
+
+    else:
+        recommendations.append({
+            "title": "درجة الحرارة مناسبة",
+            "priority": "low",
+            "priority_text": "أولوية منخفضة",
+            "description": "درجة الحرارة ضمن النطاق الإرشادي.",
+            "action": "حافظي على درجة حرارة مستقرة."
+        })
+
+    high_count = sum(
+        1 for item in recommendations
+        if item["priority"] == "high"
+    )
+
+    medium_count = sum(
+        1 for item in recommendations
+        if item["priority"] == "medium"
+    )
+
+    score = max(0, 100 - high_count * 25 - medium_count * 10)
+
+    return recommendations, score
 
 # ==============================
 # الصفحة الرئيسية
@@ -356,109 +455,7 @@ elif page == "تحليل النبات":
         st.success("تم تحليل القراءات بنجاح!")
         st.info("انتقلي إلى لوحة المعلومات والتوصيات لمشاهدة النتيجة.")
 
-# ==============================
-# تجهيز حالة النبات
-# ==============================
 
-def analyze_plant(plant, moisture, light, temperature):
-
-    data = plant_data[plant]
-    recommendations = []
-
-    if moisture < data["moisture_min"]:
-        recommendations.append({
-            "title": "تحسين عملية الري",
-            "priority": "high",
-            "priority_text": "أولوية عالية",
-            "description": "مستوى رطوبة التربة أقل من النطاق الإرشادي.",
-            "action": "تحققي من جفاف التربة واسقي النبات عند الحاجة."
-        })
-
-    elif moisture > data["moisture_max"]:
-        recommendations.append({
-            "title": "تقليل الري",
-            "priority": "high",
-            "priority_text": "أولوية عالية",
-            "description": "رطوبة التربة أعلى من النطاق الإرشادي.",
-            "action": "تأكدي من تصريف الماء واتركي التربة تجف جزئياً."
-        })
-
-    else:
-        recommendations.append({
-            "title": "رطوبة التربة مناسبة",
-            "priority": "low",
-            "priority_text": "أولوية منخفضة",
-            "description": "قراءة الرطوبة ضمن النطاق الإرشادي.",
-            "action": "استمري في متابعة التربة قبل كل عملية ري."
-        })
-
-    if light < data["light_min"]:
-        recommendations.append({
-            "title": "تحسين الإضاءة",
-            "priority": "medium",
-            "priority_text": "أولوية متوسطة",
-            "description": "الإضاءة أقل من النطاق الإرشادي للنبات.",
-            "action": "انقلي النبات إلى مكان أكثر إضاءة غير مباشرة."
-        })
-
-    elif light > data["light_max"]:
-        recommendations.append({
-            "title": "تقليل التعرض للضوء",
-            "priority": "medium",
-            "priority_text": "أولوية متوسطة",
-            "description": "الإضاءة أعلى من النطاق الإرشادي.",
-            "action": "أبعدي النبات عن أشعة الشمس المباشرة القوية."
-        })
-
-    else:
-        recommendations.append({
-            "title": "الإضاءة مناسبة",
-            "priority": "low",
-            "priority_text": "أولوية منخفضة",
-            "description": "قراءة الإضاءة ضمن النطاق الإرشادي.",
-            "action": "حافظي على مكان النبات وراقبي نموه."
-        })
-
-    if temperature < data["temp_min"]:
-        recommendations.append({
-            "title": "رفع درجة الحرارة",
-            "priority": "medium",
-            "priority_text": "أولوية متوسطة",
-            "description": "درجة الحرارة أقل من النطاق الإرشادي.",
-            "action": "ضعي النبات في مكان أكثر دفئاً بعيداً عن التيارات الباردة."
-        })
-
-    elif temperature > data["temp_max"]:
-        recommendations.append({
-            "title": "خفض درجة الحرارة",
-            "priority": "high",
-            "priority_text": "أولوية عالية",
-            "description": "درجة الحرارة أعلى من النطاق الإرشادي.",
-            "action": "أبعدي النبات عن مصادر الحرارة المباشرة."
-        })
-
-    else:
-        recommendations.append({
-            "title": "درجة الحرارة مناسبة",
-            "priority": "low",
-            "priority_text": "أولوية منخفضة",
-            "description": "درجة الحرارة ضمن النطاق الإرشادي.",
-            "action": "حافظي على درجة حرارة مستقرة."
-        })
-
-    high_count = sum(
-        1 for item in recommendations
-        if item["priority"] == "high"
-    )
-
-    medium_count = sum(
-        1 for item in recommendations
-        if item["priority"] == "medium"
-    )
-
-    score = max(0, 100 - high_count * 25 - medium_count * 10)
-
-    return recommendations, score
 
 # ==============================
 # لوحة المعلومات
