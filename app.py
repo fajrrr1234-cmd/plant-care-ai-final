@@ -312,10 +312,7 @@ elif page == "مراقبة المستشعرات":
 
     st.markdown("---")
 
-    plant = st.selectbox(
-        "🌱 اختاري نوع النبات",
-        list(plant_data.keys())
-    )
+  
 st.markdown("---")
 st.subheader("📷 التعرف على النبات بالصورة")
 
@@ -383,6 +380,10 @@ if plant_image is not None:
 
     st.markdown("---")
 
+    plant = st.selectbox(
+    "🌱 اختاري نوع النبات",
+    list(plant_data.keys())
+)
     if st.button("🔍 تحليل قراءات المستشعرات", use_container_width=True):
 
         recommendations, score = analyze_plant(
