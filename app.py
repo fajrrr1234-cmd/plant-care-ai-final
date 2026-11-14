@@ -592,28 +592,28 @@ elif page == "النتائج":
 
         st.subheader("💡 توصيات العناية بالنبات")
 
-       for item in recommendations:
+        for item in recommendations:
 
-    recommendation_html = f"""
-    <div class="recommendation-card">
-        <span class="priority {item['priority']}">
-            {item['priority_text']}
-        </span>
-
-        <h3>{item['title']}</h3>
-
-        <p>{item['description']}</p>
-
-        <div class="action-box">
-            <strong>الإجراء المقترح:</strong>
-            {item['action']}
+        recommendation_html = f"""
+        <div class="recommendation-card">
+            <span class="priority {item['priority']}">
+                {item['priority_text']}
+            </span>
+    
+            <h3>{item['title']}</h3>
+    
+            <p>{item['description']}</p>
+    
+            <div class="action-box">
+                <strong>الإجراء المقترح:</strong>
+                {item['action']}
+            </div>
         </div>
-    </div>
-    """
-
-    st.markdown(
-        textwrap.dedent(recommendation_html),
-        unsafe_allow_html=True
+        """
+    
+        st.markdown(
+            textwrap.dedent(recommendation_html),
+            unsafe_allow_html=True
     )
 
 
