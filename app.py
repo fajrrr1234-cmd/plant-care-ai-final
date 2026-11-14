@@ -465,7 +465,7 @@ elif page == "النتائج":
 
         st.markdown("---")
 
-      st.subheader("💡 توصيات العناية بالنبات")
+  st.subheader("💡 توصيات العناية بالنبات")
 
             recommendations = result.get("recommendations", [])
 
@@ -477,7 +477,7 @@ elif page == "النتائج":
                     st.success("الإجراء المقترح: " + item["action"])
                     st.markdown("---")
             else:
-                st.warning("لا توجد توصيات متاحة لهذا التحليل.")
+                st.warning("لا توجد توصيات متاحة لهذا التحليل.")  
 
 
 # =========================
