@@ -316,7 +316,44 @@ elif page == "مراقبة المستشعرات":
         "🌱 اختاري نوع النبات",
         list(plant_data.keys())
     )
+st.markdown("---")
+st.subheader("📷 التعرف على النبات بالصورة")
 
+plant_image = st.file_uploader(
+    "ارفعي صورة النبات للتعرف على نوعه",
+    type=["jpg", "jpeg", "png"]
+)
+
+if plant_image is not None:
+    st.image(plant_image, caption="صورة النبات", use_container_width=True)
+
+    if st.button("🌱 تعرف على النبات"):
+        try:
+            with st.spinner("جاري التعرف على النبات..."):
+                result = identify_plant(plant_image)
+
+            results = result.get("results", [])
+
+            if results:
+                st.success("تم التعرف على النبات!")
+
+                for item in results[:3]:
+                    species = item.get("species", {})
+                    name = species.get(
+                        "scientificNameWithoutAuthor",
+                        "اسم غير متوفر"
+                    )
+                    st.write("🌿", name)
+
+                    common_names = species.get("commonNames", [])
+                    if common_names:
+                        st.write("الأسماء الشائعة:", "، ".join(common_names))
+
+            else:
+                st.warning("لم يتم التعرف على النبات، جربي صورة أوضح.")
+
+        except Exception as e:
+            st.error(f"حدث خطأ أثناء التحليل: {e}")
     st.subheader("💧 مستشعر رطوبة التربة")
 
     moisture = st.slider(
