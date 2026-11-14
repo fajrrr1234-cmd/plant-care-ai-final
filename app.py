@@ -5,6 +5,8 @@ st.set_page_config(
     page_icon="🌱",
     layout="wide"
 )
+if "analysis" not in st.session_state:
+    st.session_state.analysis = None
 
 # =========================
 # تنسيق الواجهة
